@@ -1,11 +1,10 @@
 // ==UserScript==
 // @name         LSS Anti Coins
 // @namespace    www.leitstellenspiel.de
-// @version      1.1
-// @description  Versteckt in der Wache die Menschenhandelelemente und die Coins-Buttons im Fahrzeugmarkt
+// @version      1.2
+// @description  Versteckt in der Wache die Menschenhandelelemente und die Coins-Buttons im Fahrzeugmarkt, sowie die Buttons um Erweiterung mit Coins zu kaufen
 // @author       MissSobol
-// @match        https://www.leitstellenspiel.de/buildings/*/hire
-// @match        https://www.leitstellenspiel.de/buildings/*/vehicles/new
+// @match        https://www.leitstellenspiel.de/buildings/*
 // @grant        none
 // ==/UserScript==
 
@@ -15,6 +14,7 @@
     // Schalter für die einzelnen Funktionen
     const hideHumanTraffickingElements = true; // Funktion zum Verstecken der Menschenhandelelemente aktivieren/deaktivieren
     const hideCoinButtons = true //Funktion zum Verstecken der Coins-Buttons im Fahrzeugmarkt aktivieren/deaktivieren
+    const hideExtensionButtons = true // Funktion zum Verstecken der Buttons um Erweiterung mit Coins zu kaufen aktivieren/deaktivieren
 
     // Funktion zum Extrahieren der Gebäude-ID aus der URL
     function getBuildingIDFromURL() {
@@ -85,6 +85,19 @@
         });
     }
 
+    // Funktion zum Ausblenden der Buttons um Erweiterung mit Coins zu kaufen
+    function hideExtensionButtonsFunction() {
+        // Suche nach allen Buttons, die das Wort "Coins" enthalten
+        const coinsButtons = document.querySelectorAll('a.btn[data-confirm][data-method][rel="nofollow"]:not(.hidden)');
+
+        // Schleife durch jede gefundene Schaltfläche und verstecke sie
+        coinsButtons.forEach(button => {
+            if (button.innerText.includes('Coins')) {
+                button.style.display = 'none';
+            }
+        });
+    }
+
     // Skript sofort nach dem Laden der DOM-Elemente ausführen
     if (hideHumanTraffickingElements) {
         hideHumanTraffickingElementsFunction();
@@ -93,6 +106,11 @@
     // Skript sofort nach dem Laden der DOM-Elemente ausführen
     if (hideCoinButtons) {
         hideCoinButtonsFunction();
+    }
+
+    // Skript sofort nach dem Laden der DOM-Elemente ausführen
+    if (hideExtensionButtons) {
+        hideExtensionButtonsFunction();
     }
 
 })();
