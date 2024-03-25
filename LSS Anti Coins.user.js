@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         LSS Anti Coins
 // @namespace    www.leitstellenspiel.de
-// @version      1.2
+// @version      1.3
 // @description  Versteckt in der Wache die Menschenhandelelemente und die Coins-Buttons im Fahrzeugmarkt, sowie die Buttons um Erweiterung mit Coins zu kaufen
 // @author       MissSobol
 // @match        https://www.leitstellenspiel.de/buildings/*
+// @match        https://www.leitstellenspiel.de/missions/*
 // @grant        none
 // ==/UserScript==
 
@@ -13,8 +14,9 @@
 
     // Schalter für die einzelnen Funktionen
     const hideHumanTraffickingElements = true; // Funktion zum Verstecken der Menschenhandelelemente aktivieren/deaktivieren
-    const hideCoinButtons = true //Funktion zum Verstecken der Coins-Buttons im Fahrzeugmarkt aktivieren/deaktivieren
-    const hideExtensionButtons = true // Funktion zum Verstecken der Buttons um Erweiterung mit Coins zu kaufen aktivieren/deaktivieren
+    const hideCoinButtons = true; // Funktion zum Verstecken der Coins-Buttons im Fahrzeugmarkt aktivieren/deaktivieren
+    const hideExtensionButtons = true; // Funktion zum Verstecken der Buttons um Erweiterung mit Coins zu kaufen aktivieren/deaktivieren
+    const hideFinishMissionButton = true; // Funktion zum Verstecken des "Sofort beenden"-Buttons auf der Missionsseite aktivieren/deaktivieren
 
     // Funktion zum Extrahieren der Gebäude-ID aus der URL
     function getBuildingIDFromURL() {
@@ -98,19 +100,32 @@
         });
     }
 
+    // Funktion zum Ausblenden des "Sofort beenden"-Buttons auf der Missionsseite
+    function hideFinishMissionButtonFunction() {
+        const finishMissionButton = document.getElementById('mission_finish_now_btn');
+        if (finishMissionButton) {
+            finishMissionButton.style.display = 'none';
+        }
+    }
+
     // Skript sofort nach dem Laden der DOM-Elemente ausführen
-    if (hideHumanTraffickingElements) {
+    if (hideHumanTraffickingElements && window.location.href.includes("/buildings/")) {
         hideHumanTraffickingElementsFunction();
     }
 
     // Skript sofort nach dem Laden der DOM-Elemente ausführen
-    if (hideCoinButtons) {
+    if (hideCoinButtons && window.location.href.includes("/buildings/")) {
         hideCoinButtonsFunction();
     }
 
     // Skript sofort nach dem Laden der DOM-Elemente ausführen
-    if (hideExtensionButtons) {
+    if (hideExtensionButtons && window.location.href.includes("/buildings/")) {
         hideExtensionButtonsFunction();
+    }
+
+    // Skript sofort nach dem Laden der DOM-Elemente ausführen
+    if (hideFinishMissionButton && window.location.href.includes("/missions/")) {
+        hideFinishMissionButtonFunction();
     }
 
 })();
